@@ -1,0 +1,193 @@
+# ListControl
+
+`ListControl` is LotUI's retained, virtualized table widget for ordinary C++
+desktop applications. It is not tied to VulkanCAD or to any application model.
+Applications provide columns and rows containing backend-neutral values, and
+receive selection and cell-action callbacks.
+
+![Standalone ListControl demo](images/list-control-demo.png)
+
+The standalone demo places a compact toolbar above the grid. Undo and Redo
+cover row additions, deletions, sorting, and cell edits (including paste).
+`+ Row` adds an editable row; `- Row` removes the selected row. Choose a
+column, enter a query, and use Find to move to the next matching cell. Each
+column header has a filter button. Its example popup searches distinct values,
+supports multiple checked values, and applies them only when Apply is pressed.
+All and None change the pending selection; active filters limit visible rows
+while preserving the underlying model.
+
+![Searchable multi-select header filter](images/list-control-filter-popup.png)
+
+Run `list_control_demo --preview-filter` to open this example popup at startup.
+The [20-second demo video](videos/list-control-demo.mp4) shows row commands,
+search, and a multi-value header filter. On Windows, rebuild the recording
+with `examples/list_control_demo/record_video.ps1` after a Release build;
+the script uses `ffmpeg` from PATH or `build/video_tools`.
+The [row add/delete video](videos/list-control-rows.mp4) is a short excerpt
+from the full recording, focused on the `+ Row` and `- Row` buttons.
+The [three-query Find video](videos/list-control-find-3.mp4) records the actual
+widget without annotations: `lamp`, `chair`, then `desk`. Rebuild it on Windows
+with `examples/list_control_demo/record_video.ps1 -FindThree`. This mode reads
+pixels directly from the Vulkan swapchain, so desktop capture is not required.
+The earlier [single-query clip](videos/list-control-find.mp4) shows an
+annotated before-and-after comparison.
+The toolbar and its history belong to the sample application; plugins and
+other consumers can compose the same public widgets around `ListControl`.
+`setOnHeaderFilterRequested` reports the clicked column and button bounds so
+the host can open its own popup. After changing its data query, the host calls
+`setRows` and `setHeaderFilterActive` to update the grid and header indicator.
+
+The initial cell kinds are:
+
+- `Text`: display text and request inline editing with Enter or double-click.
+- `CheckBox`: toggle from its cell control or Space.
+- `ComboBox`: open the shared anchored option popup through `PopupHost`.
+- `Lookup`: open the shared searchable picker through `LookupBox`.
+- `ActionButton`: invoke the button shown at the right edge of the cell.
+
+```cpp
+std::vector<lotui::ListColumn> columns{
+    {"name", "Name", 180.0F},
+    {"category", "Category", 140.0F},
+    {"supplier", "Supplier", 180.0F},
+    {"actions", "", 64.0F},
+};
+
+lotui::ListCell name;
+name.text = "Desk lamp";
+
+lotui::ListCell category;
+category.kind = lotui::ListCellKind::ComboBox;
+category.options = {"Lighting", "Furniture", "Office"};
+
+lotui::ListCell supplier;
+supplier.kind = lotui::ListCellKind::Lookup;
+supplier.text = "Northwind";
+supplier.options = {"Northwind", "Contoso", "Fabrikam"};
+
+lotui::ListCell action;
+action.kind = lotui::ListCellKind::ActionButton;
+action.text = "Details";
+
+auto list = std::make_unique<lotui::ListControl>(
+    textEngine,
+    std::move(columns),
+    std::vector<lotui::ListRow>{{name, category, supplier, action}},
+    lotui::Size{640.0F, 360.0F},
+    [](std::optional<lotui::ListCellAddress> selected) {
+        // Synchronize application selection.
+    },
+    [](const lotui::ListCellEvent& event) {
+        // Open a popup at event.anchor or invoke an application command.
+    });
+```
+
+Only visible rows are shaped and painted. The selected cell is kept visible
+during arrow, Home, End, Page Up, and Page Down navigation. Horizontal and
+vertical scroll bars appear when the content exceeds the viewport. Their
+thumbs can be dragged and clicking a track pages the view.
+
+Mouse wheels and touchpads use the same backend-neutral scroll path. Platform
+backends label a delta as `ScrollDeltaMode::Line` or
+`ScrollDeltaMode::Pixel`; `ListControl` converts line deltas using its row
+height while preserving precise macOS touchpad deltas. Applications can query
+the current geometry through `verticalScrollBarBounds()`,
+`verticalScrollThumbBounds()`, `horizontalScrollBarBounds()`, and
+`horizontalScrollThumbBounds()` when testing or composing related controls.
+
+## Column resizing and sorting
+
+When a column has `resizable == true`, dragging its header divider updates the
+column width immediately and clamps it to `minimumWidth`. Applications can
+persist the result with `setOnColumnResized`. `setColumnWidth` provides the
+same validated operation for restored layouts.
+
+Sortable header clicks alternate between ascending and descending order. The
+control stores and paints a `ListSortDescriptor`, then reports it through
+`setOnSortChanged`:
+
+```cpp
+list->setOnSortChanged(
+    [](std::optional<lotui::ListSortDescriptor> sort) {
+        if (sort) {
+            // Sort the application model, database query, or virtual provider,
+            // then publish the resulting rows to the ListControl.
+        }
+    });
+```
+
+`ListControl` deliberately does not reorder the application model itself.
+This keeps the same API usable for local vectors, database-backed tables, and
+large virtual data sources. Set `sortable` or `resizable` to `false` on an
+individual `ListColumn` when that header operation is inappropriate.
+
+## Column reordering and frozen columns
+
+Dragging a header beyond `columnReorderDragThreshold` moves the complete
+column. `ListControl` moves the `ListColumn` metadata and every corresponding
+row cell together, then remaps selection and the active sort descriptor.
+Applications can persist the new order through `setOnColumnReordered`, or
+restore one directly with `moveColumn(from, to)`. Set a column's
+`reorderable` field to `false` when it must remain under application control.
+
+`setFrozenColumnCount(count)` fixes the first `count` columns to the left edge.
+Later columns continue to use the horizontal scroll offset, while painting,
+hit testing, inline-editor anchors, and the horizontal scroll bar all exclude
+the frozen region. The frozen boundary and reorder insertion marker are
+ordinary backend-neutral `PaintCommand` output, so they work with standalone
+and embedded Vulkan renderers alike.
+
+## Range and row selection
+
+The active cell remains available through `selectedCell()` for compatibility.
+`selectedRange()` adds an inclusive rectangular range and `isCellSelected()`
+is the inexpensive paint/application query. Users can extend the range with
+Shift+arrow, Shift+Home/End, Shift+Page Up/Down, Shift+click, or a pointer drag.
+Ctrl+A on Windows/Linux and Command+A on macOS select the populated table.
+
+Cell selection is the default. Row-oriented applications can switch to
+`ListSelectionMode::Row`; the same anchor and active-row behavior then expands
+the range across every column. `setOnSelectionRangeChanged` reports range
+changes while the original `setOnSelectionChanged` callback continues to
+report the active cell.
+
+## Spreadsheet copy and paste
+
+`copySelectionAsTsv()` exports the selected rectangle as tab-separated UTF-8
+text accepted by common spreadsheet applications. `pasteTsv()` starts at the
+active cell (or an explicit address), updates editable cells using their typed
+rules, and selects the written rectangle. Check boxes accept
+`true/false`, `yes/no`, `on/off`, or `1/0`; combo cells require an exact option
+label. Action buttons and read-only cells are not overwritten.
+
+Applications can connect Ctrl/Command+C and Ctrl/Command+V without exposing an
+OS type to `ListControl`:
+
+```cpp
+list->setClipboardHandlers(
+    [](std::string text) {
+        // Write UTF-8 text through the active platform clipboard service.
+    },
+    []() -> std::optional<std::string> {
+        // Read UTF-8 text through the active platform clipboard service.
+        return std::nullopt;
+    });
+```
+
+The range model and TSV codec are platform-neutral. Native Win32, Cocoa, and
+X11/Wayland clipboard ownership remains in the platform layer rather than the
+widget library.
+
+## Completion path
+
+The public event contract deliberately separates a cell action from the popup
+or editor used to perform it. `ComboBox::showPopupAt` and
+`LookupBox::showPopupAt` now provide the common popup implementations. The next
+implementation stages are:
+
+1. Asynchronous lookup data providers with loading and empty states.
+2. Native platform clipboard services and range fill/drag handles.
+3. Large-data provider API, row reuse, and incremental loading.
+
+This sequence keeps `ListControl` useful now without embedding application
+types or a specific renderer into its API.

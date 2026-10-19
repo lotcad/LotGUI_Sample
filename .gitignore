@@ -1,0 +1,10 @@
+/build*/
+/out/
+/.vs/
+/sdk/*/include/
+/sdk/*/lib/
+/sdk/*/bin/
+/sdk/*/share/
+/sdk/*/build-info-*.json
+/resources/fonts/*.ttf
+__pycache__/
