@@ -8,3 +8,4 @@
 /sdk/*/build-info-*.json
 /resources/fonts/*.ttf
 __pycache__/
+/.tools/

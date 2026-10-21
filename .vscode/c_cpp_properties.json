@@ -1,0 +1,10 @@
+{
+  "version": 4,
+  "configurations": [{
+    "name": "LotGUI portable Windows x64",
+    "compilerPath": "${workspaceFolder}/.tools/llvm-mingw-20260616-ucrt-x86_64/bin/x86_64-w64-mingw32-clang++.exe",
+    "compileCommands": "${workspaceFolder}/out/portable/compile_commands.json",
+    "cppStandard": "c++17",
+    "intelliSenseMode": "windows-clang-x64"
+  }]
+}

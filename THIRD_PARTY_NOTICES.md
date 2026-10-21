@@ -34,9 +34,9 @@ license.
 The complete license is in
 [`licenses/NOTO-SANS-KR-OFL.txt`](licenses/NOTO-SANS-KR-OFL.txt).
 
-The repository does not currently store a font binary. Before making a release,
-verify the provenance of the configured font file and package the matching
-copyright notice and license with it.
+The portable bootstrap downloads a pinned official Google Fonts copy and its
+matching OFL, verifies both SHA256 values, and stages that OFL with the executable.
+Manual builds must verify the provenance and matching notice of their chosen font.
 
 ## Vulkan Loader and MoltenVK
 
@@ -51,3 +51,20 @@ The official Vulkan Loader and MoltenVK are primarily Apache-2.0 licensed.
 `LotUI::Declarative` uses TinyXML-2 to parse LotML documents. TinyXML-2 is
 distributed under the zlib license. The complete notice is in
 [`licenses/TINYXML2-ZLIB.txt`](licenses/TINYXML2-ZLIB.txt).
+
+## Portable Windows toolchain and runtime
+
+The portable build downloads the pinned LLVM-MinGW distribution directly from
+its upstream release. LLVM, libc++ and libunwind license information is supplied
+in the toolchain's `LICENSE.TXT`, copied into the output's `legal/toolchain`.
+MinGW-w64 and winpthreads notices are included in
+[`licenses/MINGW-W64-COPYING.txt`](licenses/MINGW-W64-COPYING.txt) and
+[`licenses/WINPTHREADS-COPYING.txt`](licenses/WINPTHREADS-COPYING.txt).
+Their source revision is `c28e9555bb8800c53449f42a465ad9a5676fce88`, as pinned by
+LLVM-MinGW 20260616. The runtime DLLs are staged beside the sample executables.
+
+The bootstrap also downloads CMake, Ninja and Vulkan-Headers from their upstream
+releases. Their distributions retain upstream notices in `.tools`. Vulkan header
+licenses and the Vulkan-Loader import definition's copyright notice are staged
+under the output's `legal/licenses`. The Vulkan loader DLL itself is supplied by
+the user's graphics driver; it is not included in the sample package.

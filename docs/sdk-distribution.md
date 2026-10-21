@@ -4,6 +4,16 @@ The framework implementation stays in the development repository. This repositor
 contains application examples, public C++ headers and matching binary SDK packages.
 Headers include declarations and inline/template code required by C++ consumers.
 
+## Windows portable consumer build
+
+The included `sdk/packages/windows-x64-llvm-mingw-20260616.zip` provides a
+Release SDK built with the same portable compiler used by `tools/build-portable.ps1`.
+VS Code's default build task downloads the toolchain and unpacks this SDK.
+It also downloads Vulkan headers and a font, and creates a Vulkan import library;
+the full Vulkan SDK and MSVC Build Tools are unnecessary for this route.
+See [portable build](portable-build.md). The manual platform instructions below
+remain useful for producing other SDK variants.
+
 ## Build each SDK on its target platform
 
 Use the updated development LotGUI checkout. Build and export separately for each
@@ -65,8 +75,8 @@ The export helper stages this installation under `sdk/<triplet>`, checks that no
 framework implementation/shaders/debug symbols are included and records the build
 configuration/source commit. It copies an allowlist of application examples and
 public headers, never the framework source tree. It does not invoke Git or change
-repository visibility. SDK archives are ignored by Git by default; distribute
-validated per-platform packages through Releases.
+repository visibility. Expanded SDK libraries are ignored by Git by default;
+distribute validated per-platform archives through Releases or `sdk/packages`.
 
 ## Consumer build without private sources
 
@@ -89,7 +99,7 @@ for those installations. Dependencies built from pinned sources by the producer
 must be separately installed as binary development packages; the LotGUI export
 does not automatically bundle them or download source in the consumer build.
 
-The Noto Sans KR font is intentionally not downloaded or substituted automatically.
+For manual builds, the Noto Sans KR font is not downloaded or substituted automatically.
 Set `LOTGUI_FONT_FILE` to a verified official copy and retain its matching OFL notice.
 Keep `resources/fonts`, the demo plugin and legal notices beside the executable.
 Vulkan/MoltenVK and any dynamic text dependency must be supplied by the target

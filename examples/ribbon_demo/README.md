@@ -26,10 +26,15 @@ callback's UTF-8 pointer is valid only during the call. The plugin stays loaded
 until its widget tree is gone.
 This example ABI is intentionally local to the demo, not a stable public SDK.
 
-Build and run:
+On Windows x64, the portable consumer build needs only VS Code. Open the repository
+folder and press **Ctrl+Shift+B**, then select **Terminal → Run Task →
+LotGUI: run example (portable)** and choose `ribbon_demo`.
+See [portable build](../../docs/portable-build.md).
+
+Manual build using a matching SDK:
 
 ```sh
-cmake -S . -B build -DLOTUI_BUILD_EXAMPLES=ON
+cmake -S . -B build -DLOTGUI_SDK_ROOT=/path/to/sdk -DLOTGUI_FONT_FILE=/path/to/NotoSansKR-Regular.ttf
 cmake --build build --config Release --target ribbon_demo
 ```
 
@@ -45,14 +50,14 @@ depending on desktop capture.
 To stage a separate example distribution:
 
 ```sh
-cmake --install build --config Release --component Examples --prefix build/ribbon-demo-dist
+cmake --install build --config Release --prefix build/ribbon-demo-dist
 ```
 
-The `Examples` component contains `bin/ribbon_demo` (or
+The installation contains `bin/ribbon_demo` (or
 `bin/ribbon_demo.exe`), the adjacent `ribbon_demo_plugin` shared library,
 `bin/resources/fonts/NotoSansKR-Regular.ttf`,
 `bin/resources/fonts/lucide-subset.ttf`, and `bin/legal`. Keep the
-executable and plugin together. Configure `LOTUI_EXAMPLE_FONT_FILE` with a
+executable and plugin together. Configure `LOTGUI_FONT_FILE` with a
 licensed Noto Sans KR font if the default sibling font is unavailable. Verify
 the font's provenance and matching OFL notice before distributing the package.
 A Vulkan runtime is required on the target machine.

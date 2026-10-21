@@ -7,7 +7,26 @@
 LotGUI 라이브러리와 사용자 애플리케이션 예제를 분리한 배포용 저장소입니다.
 Vulkan 파이프라인, 위젯 내부 구현 및 OS 백엔드의 구현 소스는 포함하지 않습니다.
 공개 헤더와 예제 소스는 제공하며, **정적 라이브러리 SDK는 각 OS에서 별도로 빌드**합니다.
-현재 Windows/macOS SDK 바이너리가 업로드되어 있다는 뜻은 아닙니다.
+Windows x64용 휴대용 LLVM-MinGW SDK는 `sdk/packages`에 포함되어 있습니다.
+macOS용 바이너리는 별도로 준비해야 합니다.
+
+### Windows: VS Code에서 바로 빌드
+
+1. 이 저장소를 ZIP으로 내려받아 압축을 풀거나 clone합니다.
+2. VS Code에서 **폴더 열기**로 프로젝트를 엽니다.
+3. **Ctrl+Shift+B**를 누릅니다.
+
+처음 실행하면 LLVM-MinGW 컴파일러, CMake, Ninja, Vulkan 헤더와 한글 폰트를
+`.tools`에 내려받고 예제를 `out/portable`에 빌드합니다. Visual Studio, Build Tools,
+Git, Python, Vulkan SDK를 따로 설치할 필요가 없습니다. 첫 실행은 인터넷과 약 1.5 GB의
+여유 공간이 필요합니다. 이후에는 내려받은 파일을 재사용합니다.
+
+실행은 **Terminal → Run Task → LotGUI: run example (portable)**에서 예제를 선택합니다.
+검증은 **LotGUI: test (portable)** 작업으로 실행합니다. VS Code 확장은 선택 사항입니다.
+
+Windows 10/11 x64와 Vulkan을 지원하는 그래픽 드라이버가 필요합니다.
+ARM64, 다른 컴파일러와의 SDK 혼용, Debug 빌드는 이 휴대용 패키지의 지원 범위가 아닙니다.
+[자동 빌드 상세 안내](docs/portable-build.md)
 
 | 디렉터리 | 내용 |
 |---|---|
@@ -21,6 +40,8 @@ Vulkan 파이프라인, 위젯 내부 구현 및 OS 백엔드의 구현 소스�
 
 예제는 `find_package(LotUI CONFIG REQUIRED)`로 설치된 SDK를 사용합니다.
 개발용 원본 저장소를 `add_subdirectory()`로 넣거나 프레임워크 `.cpp`를 컴파일하지 않습니다.
+
+기존 MSVC SDK를 사용한 수동 빌드:
 
 ```powershell
 # 예: D:\vulkan\LotGUI_Sample 에서 실행
@@ -41,8 +62,15 @@ implementation files stay in the separate development repository.
 
 Consume a prebuilt, matching **static DesktopSDK** through `find_package(LotUI)`.
 Do not add the framework source tree to the application build. Build and validate
-each OS/CPU/toolchain SDK independently; Windows and macOS binaries have not been
-produced by the Linux-side preparation work.
+each OS/CPU/toolchain SDK independently.
+
+On Windows 10/11 x64, open this folder in VS Code and press **Ctrl+Shift+B**.
+The task downloads pinned portable LLVM-MinGW, CMake, Ninja, Vulkan headers and
+Noto Sans KR, then builds against the included matching SDK archive. No Visual
+Studio, Build Tools, Git, Python or Vulkan SDK installation is required. Internet
+access is needed on the first run; a Vulkan-capable graphics driver is required
+to run the GUI. Use **Terminal → Run Task → LotGUI: run example (portable)** to run.
+See [portable build](docs/portable-build.md).
 
 See [SDK distribution](docs/sdk-distribution.md), [custom drawing](docs/custom-draw.md)
 and [verification status](docs/verification.md).

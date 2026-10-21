@@ -4,15 +4,21 @@
 binary SDK on its own. Full SDKs are staged separately, for example:
 
 - `sdk/windows-x64-msvc/` (matching MSVC toolset + CRT)
+- `sdk/packages/windows-x64-llvm-mingw-20260616.zip` (included portable x64 Release SDK)
 - `sdk/macos-arm64-clang/` (Apple Silicon; MoltenVK required)
 - `sdk/macos-x64-clang/` (Intel; build separately)
 - `sdk/linux-x64-gcc/` (matching compiler/libstdc++/glibc)
 
-Each complete prefix contains `include`, `lib/<configuration>`,
-`lib/cmake/LotUI`, and `share/LotUI`. Point `LOTGUI_SDK_ROOT` to that prefix.
+The portable archive contains matching public `include` headers alongside a
+`windows-x64-llvm-mingw` prefix with `lib/Release`, `lib/cmake/LotUI`, build
+metadata, and license notices. The bootstrap extracts it under `.tools/sdk`
+and sets `LOTGUI_SDK_ROOT` automatically. It does not consume the MSVC SDK.
+Other SDK layouts should follow their package's include configuration.
 Release and Debug can coexist; each must be built for the same target toolchain.
 The first SDK format uses static archives, not a new DLL ABI.
 
-Generated SDK binaries are excluded from Git by default. Distribute matching
-SDK archives through Releases. No prebuilt Windows/macOS binary is included
-until it has been built and tested on that platform.
+Expanded SDK binaries are excluded from Git by default. The small portable SDK
+ZIP in `sdk/packages` is intentionally versioned so GitHub source ZIP downloads
+also contain everything required to obtain the matching SDK. Commit this ZIP
+together with `tools/portable-lock.json` when updating it. Other platform SDKs can
+be distributed through Releases. No macOS binary is included.
