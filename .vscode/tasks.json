@@ -5,30 +5,87 @@
       "label": "LotGUI: build (portable)",
       "type": "process",
       "command": "${env:SystemRoot}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/build-portable.ps1"],
-      "group": { "kind": "build", "isDefault": true },
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/build-portable.ps1"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "problemMatcher": "$gcc",
-      "presentation": { "reveal": "always", "panel": "dedicated" }
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "osx": {
+        "command": "/bin/bash",
+        "args": [
+          "${workspaceFolder}/tools/build-macos.sh"
+        ]
+      }
     },
     {
       "label": "LotGUI: run example (portable)",
       "type": "process",
       "command": "${env:SystemRoot}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/build-portable.ps1", "-Run", "${input:example}"],
-      "problemMatcher": "$gcc"
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/build-portable.ps1",
+        "-Run",
+        "${input:example}"
+      ],
+      "problemMatcher": "$gcc",
+      "osx": {
+        "command": "/bin/bash",
+        "args": [
+          "${workspaceFolder}/tools/build-macos.sh",
+          "--run",
+          "${input:example}"
+        ]
+      }
     },
     {
       "label": "LotGUI: test (portable)",
       "type": "process",
       "command": "${env:SystemRoot}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/build-portable.ps1", "-Test"],
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/build-portable.ps1",
+        "-Test"
+      ],
       "group": "test",
-      "problemMatcher": "$gcc"
+      "problemMatcher": "$gcc",
+      "osx": {
+        "command": "/bin/bash",
+        "args": [
+          "${workspaceFolder}/tools/build-macos.sh",
+          "--test"
+        ]
+      }
     }
   ],
-  "inputs": [{
-    "id": "example", "type": "pickString", "description": "Select a LotGUI example",
-    "options": ["ribbon_demo", "list_control_demo", "platform_probe", "custom_draw_demo"],
-    "default": "ribbon_demo"
-  }]
+  "inputs": [
+    {
+      "id": "example",
+      "type": "pickString",
+      "description": "Select a LotGUI example",
+      "options": [
+        "ribbon_demo",
+        "list_control_demo",
+        "platform_probe",
+        "custom_draw_demo"
+      ],
+      "default": "ribbon_demo"
+    }
+  ]
 }
