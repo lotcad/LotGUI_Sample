@@ -1,7 +1,7 @@
 # Windows PowerShell 5.1+, Windows 10/11 x64. No installed compiler or Git needed.
 [CmdletBinding()]
 param(
-    [ValidateSet('ribbon_demo', 'list_control_demo', 'platform_probe', 'custom_draw_demo')]
+    [ValidateSet('ribbon_demo', 'list_control_demo', 'platform_probe', 'custom_draw_demo', 'conversation_demo')]
     [string]$Run,
     [switch]$Test,
     [switch]$PrepareOnly
@@ -126,7 +126,7 @@ try {
 
     if ($Test) {
         Invoke-Checked "$cmakeBin/ctest.exe" @('--test-dir', $buildDirectory, '--output-on-failure')
-        foreach ($example in @('platform_probe', 'custom_draw_demo', 'ribbon_demo')) {
+        foreach ($example in @('platform_probe', 'custom_draw_demo', 'ribbon_demo', 'conversation_demo')) {
             Invoke-Checked "$buildDirectory/$example.exe" @('--smoke')
         }
         Invoke-Checked "$buildDirectory/ribbon_demo.exe" @('--input-test')

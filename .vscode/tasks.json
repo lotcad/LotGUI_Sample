@@ -83,7 +83,8 @@
         "ribbon_demo",
         "list_control_demo",
         "platform_probe",
-        "custom_draw_demo"
+        "custom_draw_demo",
+        "conversation_demo"
       ],
       "default": "ribbon_demo"
     }
