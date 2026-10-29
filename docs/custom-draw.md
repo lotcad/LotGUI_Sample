@@ -12,6 +12,9 @@
 appearance without modifying the library. A slider changes both the derived
 widget and callback-based view in `custom_draw_demo`.
 
+Run `custom_draw_demo --capture custom-draw.ppm` to save a lossless Vulkan
+frame of both views and the slider. The frame is written as a P6 PPM image.
+
 ```cpp
 void onPaint(std::vector<lotui::PaintCommand>& commands) const override {
     commands.push_back({bounds(), clip(), {0.08F, 0.44F, 1.0F, 1.0F}});
