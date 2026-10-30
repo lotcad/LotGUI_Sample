@@ -44,6 +44,7 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 | `examples/platform_probe` | 네이티브 창, 기본 위젯, 입력·IME 예제 |
 | `examples/list_control_demo` | 테이블, 검색·필터, 셀 편집 예제 |
 | `examples/conversation_demo` | 메신저형 대화 목록과 언어별 코드 블록 예제 |
+| `examples/conversation_demo`의 `conversation_qa_demo` | 오른쪽 질문과 전체 너비 답변, 코드 복사 예제 |
 | `examples/ribbon_demo` | 리본과 동적 플러그인 예제 |
 | `examples/custom_draw` | `Widget` 상속 및 사용자 그리기 콜백 예제 |
 | `docs` | API 사용 및 플랫폼별 배포 안내 |
