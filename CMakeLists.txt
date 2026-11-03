@@ -9,7 +9,7 @@ set(LOTGUI_FONT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/resources/fonts/NotoSansKR-Reg
     CACHE FILEPATH "Licensed Noto Sans KR font used by native examples")
 option(LOTGUI_BUILD_NATIVE_EXAMPLES "Build native Vulkan window, list and ribbon examples" ON)
 option(LOTGUI_BUILD_GRAPH_CANVAS_DEMO
-    "Build GraphCanvas example (requires an SDK built with GraphCanvas)" ${MSVC})
+    "Build GraphCanvas example (requires an SDK built with GraphCanvas)" ${WIN32})
 option(LOTGUI_BUILD_CONVERSATION_DEMO "Build the chat and code block example when the SDK includes it" ${WIN32})
 if(LOTGUI_SDK_ROOT)
     if(NOT EXISTS "${LOTGUI_SDK_ROOT}/lib/cmake/LotUI/LotUIConfig.cmake")

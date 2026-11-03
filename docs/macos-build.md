@@ -64,6 +64,30 @@ The optional C/C++ extension's **Mac** configuration reads
 `out/macos/compile_commands.json`; build once before using code completion.
 Edit the application sources under `examples` and run the build task again.
 
+## Rebuild the macOS SDK for GraphCanvas
+
+The checked-in macOS SDK predates `GraphCanvas`, so its standard sample build
+skips `graph_canvas_demo`. On an Apple Silicon Mac with a sibling `../LotGUI`
+checkout and the prerequisites above, rebuild the producer and package its
+public headers and Release libraries:
+
+```sh
+cmake -S ../LotGUI -B ../LotGUI/build-macos-sdk -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 \
+  -DLOTUI_BUILD_EXAMPLES=OFF -DLOTUI_BUILD_DESKTOP_SDK=ON \
+  -DLOTUI_STAGE_SAMPLE_SDK=OFF -DLOTUI_VULKAN_SDK_ROOT="$VULKAN_SDK"
+bash tools/package-macos-sdk.sh ../LotGUI/build-macos-sdk ../LotGUI
+bash tools/build-macos.sh --test
+```
+
+The packaging helper checks that the installed widget archive exports
+`GraphCanvas`, updates the ZIP and SHA256 sidecar, and copies the public header
+allowlist from the matching producer. `build-macos.sh` then detects the symbol,
+enables the new example, and runs its smoke test. It prefers the new
+`macos-arm64-clang-20261104.zip` when present, retaining the older archive for
+comparison. Packaging requires native
+macOS ARM64; the current Windows checkout cannot produce that archive.
+
 ## Runtime and installation
 
 The task sets `DYLD_LIBRARY_PATH` to the configured Vulkan SDK's `lib` directory

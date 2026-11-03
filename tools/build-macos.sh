@@ -14,7 +14,7 @@ case "$mode" in
     --run)
         [[ $# -eq 2 ]]
         case "$example" in
-            ribbon_demo|list_control_demo|platform_probe|custom_draw_demo) ;;
+            ribbon_demo|list_control_demo|platform_probe|custom_draw_demo|graph_canvas_demo) ;;
             *) echo "Unknown example: $example" >&2; exit 2 ;;
         esac ;;
     *) echo "Usage: bash tools/build-macos.sh [--test|--run example]" >&2; exit 2 ;;
@@ -42,7 +42,10 @@ if [[ ! -f "$font" ]]; then
     exit 1
 fi
 
-archive="sdk/packages/macos-arm64-clang-20261020.zip"
+archive="sdk/packages/macos-arm64-clang-20261104.zip"
+if [[ ! -f "$root/$archive" ]]; then
+    archive="sdk/packages/macos-arm64-clang-20261020.zip"
+fi
 (cd "$root" && shasum -a 256 -c "$archive.sha256")
 sdk_hash="$(shasum -a 256 "$root/$archive")"
 sdk_hash="${sdk_hash%% *}"
@@ -53,12 +56,24 @@ if [[ ! -f "$sdk_directory/.ready" || ! -f "$sdk_root/lib/cmake/LotUI/LotUIConfi
     unzip -oq "$root/$archive" -d "$sdk_directory"
     touch "$sdk_directory/.ready"
 fi
+graph_available=OFF
+if [[ -f "$sdk_root/lib/Release/liblotui_widgets.a" ]] &&
+    xcrun nm -g "$sdk_root/lib/Release/liblotui_widgets.a" 2>/dev/null |
+        grep 'GraphCanvas' >/dev/null; then
+    graph_available=ON
+fi
+if [[ "$mode" == --run && "$example" == graph_canvas_demo &&
+      "$graph_available" != ON ]]; then
+    echo "GraphCanvas requires a rebuilt macOS SDK. See docs/macos-build.md." >&2
+    exit 1
+fi
 
 vulkan_root="${VULKAN_SDK:-}"
 if [[ -z "$vulkan_root" && -f "$root/../VulkanSdk/Apple/macOS/include/vulkan/vulkan.h" ]]; then
     vulkan_root="$root/../VulkanSdk/Apple/macOS"
 fi
-vulkan_args=(-DLOTGUI_BUILD_NATIVE_EXAMPLES=ON)
+vulkan_args=(-DLOTGUI_BUILD_NATIVE_EXAMPLES=ON
+    "-DLOTGUI_BUILD_GRAPH_CANVAS_DEMO=$graph_available")
 if [[ -n "$vulkan_root" ]]; then
     if [[ ! -f "$vulkan_root/include/vulkan/vulkan.h" || ! -f "$vulkan_root/lib/libvulkan.dylib" ]]; then
         echo "VULKAN_SDK must contain include/vulkan/vulkan.h and lib/libvulkan.dylib." >&2
@@ -84,6 +99,9 @@ if [[ "$mode" == --test ]]; then
     "$build_directory/ribbon_demo" --input-test-v1
     "$build_directory/ribbon_demo" --input-test
     "$build_directory/list_control_demo" --video-demo
+    if [[ "$graph_available" == ON ]]; then
+        "$build_directory/graph_canvas_demo" --smoke
+    fi
 elif [[ "$mode" == --run ]]; then
     exec "$build_directory/$example"
 fi

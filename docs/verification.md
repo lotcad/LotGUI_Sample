@@ -1,5 +1,21 @@
 # Verification status
 
+## Windows GraphCanvas SDK and engine adapter (2026-11-04)
+
+- Rebuilt the LLVM-MinGW Release DesktopSDK from LotGUI `ff32537` and updated
+  the checked-in Windows SDK ZIP and its SHA256 lock.
+- `tools/build-portable.ps1 -Test` configured and built every consumer example
+  from the packaged SDK. Both CTest cases and five GUI smoke runs passed,
+  including `graph_canvas_demo --smoke` (223 paint commands). The normal
+  portable example task now offers `graph_canvas_demo`.
+- The separate engine `LotCADLotGUI --graph-test` rendered four real CAD boxes
+  as nodes, verified that clicking a node updated CAD selection and that wheel
+  input reached LotUI, then captured the embedded view. The native node-editor
+  model was not migrated by this scene-object adapter.
+- The macOS ARM64 ZIP still predates GraphCanvas. Its standard consumer build
+  leaves this demo disabled until a Mac producer rebuilds the SDK and enables
+  `LOTGUI_BUILD_GRAPH_CANVAS_DEMO`.
+
 ## macOS ARM64 consumer and local SDK (2026-10-21)
 
 Sample revision tested: `1e08202`.

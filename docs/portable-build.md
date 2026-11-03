@@ -12,7 +12,7 @@ VS Code의 Workspace Trust 안내가 나오면 이 프로젝트의 내용을 확
 
 실행: **Terminal → Run Task → LotGUI: run example (portable)**에서 예제를 선택합니다.
 결과는 `out/portable`에 생성됩니다. `LotGUI: test (portable)`는 자동 테스트 2개,
-GUI smoke 검사 3개와 리본 플러그인 V1/V2 입력 검사를 실행합니다.
+GUI smoke 검사 5개(노드 그래프 포함)와 리본 플러그인 V1/V2 입력 검사를 실행합니다.
 테스트 중 GUI 창이 잠시 나타났다가 닫힙니다.
 
 VS Code 없이도 저장소 폴더에서 다음 명령을 실행할 수 있습니다.
@@ -20,6 +20,7 @@ VS Code 없이도 저장소 폴더에서 다음 명령을 실행할 수 있습�
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-portable.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-portable.ps1 -Run ribbon_demo
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-portable.ps1 -Run graph_canvas_demo
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-portable.ps1 -Test
 ```
 
