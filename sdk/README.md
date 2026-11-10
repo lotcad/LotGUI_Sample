@@ -14,6 +14,8 @@ The portable archive contains matching public `include` headers alongside a
 `windows-x64-llvm-mingw` prefix with `lib/Release`, `lib/cmake/LotUI`, build
 metadata, and license notices. The bootstrap extracts it under `.tools/sdk`
 and sets `LOTGUI_SDK_ROOT` automatically. It does not consume the MSVC SDK.
+The current Windows MSVC and portable SDKs include `TimelineView`; the native
+macOS archive must be rebuilt on macOS before enabling its timeline demo.
 Other SDK layouts should follow their package's include configuration.
 Release and Debug can coexist; each must be built for the same target toolchain.
 The first SDK format uses static archives, not a new DLL ABI.

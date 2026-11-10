@@ -46,6 +46,7 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 | `examples/color_editor_demo` | 객체·레이어·플러그인 RGB 색상 편집 예제 |
 | `examples/plot_view_demo` | 다중 데이터 계열과 객체 체크 목록, 축·격자, 확대·이동 그래프 예제 (`--objects`) |
 | `examples/graph_canvas_demo` | 노드·포트·연결선, 선택·이동·확대 그래프 캔버스 예제 |
+| `examples/timeline_view_demo` | 키프레임 트랙, 재생·시간 스크럽, 키 이동·확대 타임라인 예제 |
 | `examples/conversation_demo` | 메신저형 대화 목록과 언어별 코드 블록 예제 |
 | `examples/conversation_demo`의 `conversation_qa_demo` | 오른쪽 질문과 전체 너비 답변, 코드 복사 예제 |
 | `examples/ribbon_demo` | 리본과 동적 플러그인 예제 |
@@ -54,7 +55,7 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 
 예제는 `find_package(LotUI CONFIG REQUIRED)`로 설치된 SDK를 사용합니다.
 개발용 원본 저장소를 `add_subdirectory()`로 넣거나 프레임워크 `.cpp`를 컴파일하지 않습니다.
-`graph_canvas_demo`는 Windows MSVC와 갱신된 LLVM-MinGW SDK에서 기본 빌드됩니다.
+`graph_canvas_demo`와 `timeline_view_demo`는 Windows MSVC와 갱신된 LLVM-MinGW SDK에서 기본 빌드됩니다.
 macOS ZIP은 GraphCanvas 이전 버전이므로 해당 OS용 SDK를 다시 빌드한 후
 `LOTGUI_BUILD_GRAPH_CANVAS_DEMO=ON`을 지정해 주세요.
 객체 치수 선택 화면은 `plot_view_demo --objects`, 자동 검증은
