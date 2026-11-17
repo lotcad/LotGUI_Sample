@@ -64,7 +64,7 @@ if(LOTGUI_BUILD_NATIVE_EXAMPLES)
     target_include_directories(ribbon_demo_plugin PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
     lotgui_compile_options(ribbon_demo_plugin)
     add_executable(ribbon_demo examples/ribbon_demo/main.cpp
-        examples/ribbon_demo/plugin_tab.cpp ${_loader} ${_bridge})
+        examples/ribbon_demo/plugin_tab.cpp examples/ribbon_demo/tga_image.cpp ${_loader} ${_bridge})
     target_link_libraries(ribbon_demo PRIVATE ${CMAKE_DL_LIBS})
     target_compile_definitions(ribbon_demo PRIVATE
         LOTUI_DEMO_PLUGIN_NAME="$<TARGET_FILE_NAME:ribbon_demo_plugin>")
@@ -93,6 +93,9 @@ if(LOTGUI_BUILD_NATIVE_EXAMPLES)
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different
             "${CMAKE_CURRENT_SOURCE_DIR}/examples/ribbon_demo/resources/fonts/lucide-subset.ttf"
             "$<TARGET_FILE_DIR:ribbon_demo>/resources/fonts/lucide-subset.ttf"
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/examples/ribbon_demo/resources/icons"
+            "$<TARGET_FILE_DIR:ribbon_demo>/resources/icons"
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different
             "${CMAKE_CURRENT_SOURCE_DIR}/examples/ribbon_demo/resources/LUCIDE-LICENSE.txt"
             "$<TARGET_FILE_DIR:ribbon_demo>/legal/licenses/LUCIDE-LICENSE.txt"
@@ -100,6 +103,7 @@ if(LOTGUI_BUILD_NATIVE_EXAMPLES)
     install(TARGETS ribbon_demo_plugin LIBRARY DESTINATION bin RUNTIME DESTINATION bin)
     install(FILES "${LOTGUI_FONT_FILE}" DESTINATION bin/resources/fonts RENAME NotoSansKR-Regular.ttf)
     install(FILES examples/ribbon_demo/resources/fonts/lucide-subset.ttf DESTINATION bin/resources/fonts)
+    install(DIRECTORY examples/ribbon_demo/resources/icons/ DESTINATION bin/resources/icons)
     install(FILES LICENSE THIRD_PARTY_NOTICES.md DESTINATION bin/legal)
     install(DIRECTORY licenses/ DESTINATION bin/legal/licenses)
     install(FILES examples/ribbon_demo/resources/LUCIDE-LICENSE.txt DESTINATION bin/legal/licenses)
