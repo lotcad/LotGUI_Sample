@@ -52,6 +52,12 @@ including Korean text input. `--input-test-v1` verifies that the original
 three controls still work when the optional V2 entry point is ignored.
 `--capture-plugin output.ppm` writes a frame from the Vulkan renderer without
 depending on desktop capture.
+`--capture-dialog output.ppm` captures the modal dialog. The palette uses
+sRGB display colors converted for the Vulkan swapchain; ribbon and list text
+use 14-pixel Noto Sans KR with brighter foreground colors.
+
+![Ribbon plugin with desktop palette](../../docs/images/ribbon-demo-plugin.png)
+![Desktop-style modal dialog](../../docs/images/ribbon-demo-dialog.png)
 
 To stage a separate example distribution:
 
