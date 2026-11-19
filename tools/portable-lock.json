@@ -35,7 +35,7 @@
     "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
   },
   "sdk": {
-    "sha256": "88172c8babbd9330459d33f267070326788d5b2fe55c2fc6e30e9a95c6a45ef0",
+    "sha256": "9e4de93f49de7a95703312b5896b5ece4de6777fc4b0b1faccbbef5848d4f617",
     "file": "sdk/packages/windows-x64-llvm-mingw-20260616.zip"
   }
 }
