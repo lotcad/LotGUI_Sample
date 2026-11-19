@@ -44,6 +44,7 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 | `examples/platform_probe` | 네이티브 창, 기본 위젯, 입력·IME 예제 |
 | `examples/list_control_demo` | 테이블, 검색·필터, 셀 편집 예제 |
 | `examples/color_editor_demo` | 객체·레이어·플러그인 RGB 색상 편집 예제 |
+| `examples/cad_inspector_demo` | 3dEngine 흐름을 참고한 장면 트리·속성 검사 예제 |
 | `examples/plot_view_demo` | 다중 데이터 계열과 객체 체크 목록, 축·격자, 확대·이동 그래프 예제 (`--objects`) |
 | `examples/graph_canvas_demo` | 노드·포트·연결선, 선택·이동·확대 그래프 캔버스 예제 |
 | `examples/timeline_view_demo` | 키프레임 트랙, 재생·시간 스크럽, Ctrl 다중 선택, 키 이동·보간·삭제 예제 |
