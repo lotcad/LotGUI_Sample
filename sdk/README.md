@@ -36,3 +36,7 @@ in its producer metadata. Its objects require macOS 27.0 or later; older OS
 versions need a separate SDK build. It does not bundle Vulkan/MoltenVK, fonts, Xcode,
 CMake, or Ninja. See [macOS build](../docs/macos-build.md) and
 [verification limits](../docs/verification.md).
+
+The Windows MSVC and portable archives include CodeEditor. The packaged macOS
+archive predates it; rebuild the macOS SDK and enable
+LOTGUI_BUILD_CODE_EDITOR_DEMO=ON to use the editor example there.
