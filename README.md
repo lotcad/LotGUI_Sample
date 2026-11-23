@@ -55,6 +55,8 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 | `examples/custom_draw` | `Widget` 상속 및 사용자 그리기 콜백 예제 |
 | `docs` | API 사용 및 플랫폼별 배포 안내 |
 
+좌표 검사 예제와 키프레임 예제의 최소 창 내용 크기는 각각 680×900, 420×400입니다.
+
 예제는 `find_package(LotUI CONFIG REQUIRED)`로 설치된 SDK를 사용합니다.
 개발용 원본 저장소를 `add_subdirectory()`로 넣거나 프레임워크 `.cpp`를 컴파일하지 않습니다.
 `graph_canvas_demo`와 `timeline_view_demo`는 Windows MSVC와 갱신된 LLVM-MinGW SDK에서 기본 빌드됩니다.
