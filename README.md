@@ -51,7 +51,7 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 | `examples/timeline_view_demo` | 키프레임 트랙, 재생·시간 스크럽, Ctrl 다중 선택, 키 이동·보간·삭제 예제 |
 | `examples/conversation_demo` | 메신저형 대화 목록과 언어별 코드 블록 예제 |
 | `examples/conversation_demo`의 `conversation_qa_demo` | 오른쪽 질문과 전체 너비 답변, 코드 복사 예제 |
-| `examples/ribbon_demo` | 리본과 동적 플러그인 예제 |
+| `examples/ribbon_demo` | 리본·동적 플러그인·상하좌우 도킹 툴바 예제 |
 | `examples/custom_draw` | `Widget` 상속 및 사용자 그리기 콜백 예제 |
 | `docs` | API 사용 및 플랫폼별 배포 안내 |
 
