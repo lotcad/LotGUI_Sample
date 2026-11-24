@@ -15,7 +15,7 @@ closes the popup; the ribbon keeps its 134-pixel height.
 
 A compact quick toolbar sits below the ribbon. Drag its dotted grip to the
 workspace's top, bottom, left, or right edge. Undo, Redo, Add, and Delete
-remain clickable after docking. Dropping in the center keeps the current edge.
+remain clickable after docking and use the same Lucide icons as the ribbon. Dropping in the center keeps the current edge.
 `--input-test` checks all four sides; `--capture-dock-left output.ppm` captures
 the vertical layout.
 
