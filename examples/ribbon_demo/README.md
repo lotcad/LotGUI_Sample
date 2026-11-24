@@ -16,11 +16,13 @@ closes the popup; the ribbon keeps its 134-pixel height.
 A compact quick toolbar sits below the ribbon. Drag its dotted grip to the
 workspace's top, bottom, left, or right edge. Undo, Redo, Add, and Delete
 remain clickable after docking and use the same Lucide icons as the ribbon. Dropping in the center keeps the current edge.
-`--input-test` checks all four sides; `--capture-dock-left output.ppm` captures
-the vertical layout.
+`--input-test` checks all four sides. `--capture-dock-left`,
+`--capture-dock-bottom`, and `--capture-dock-right` capture each layout.
 
 ![Top dock](../../docs/images/ribbon-dock-top.png)
 ![Left dock](../../docs/images/ribbon-dock-left.png)
+![Bottom dock](../../docs/images/ribbon-dock-bottom.png)
+![Right dock](../../docs/images/ribbon-dock-right.png)
 
 Ribbon commands use a 20-glyph subset of the Lucide 1.55.0 icon font. The
 subset is stored in `resources/fonts/lucide-subset.ttf`; its ISC/MIT license
