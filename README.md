@@ -47,6 +47,7 @@ macOS에서는 작업이 `tools/build-macos.sh`를 실행하고, 포함된 SDK Z
 | `examples/cad_inspector_demo` | 3dEngine 흐름을 참고한 장면 트리·속성 검사 및 X/Y/Z 좌표 복사 예제 |
 | `examples/code_editor_demo` | 줄 번호·구문 색상·한글 입력·검색·Undo/Redo를 갖춘 C++ 코드 편집기 |
 | `examples/plot_view_demo` | 다중 데이터 계열과 객체 체크 목록, 축·격자, 확대·이동 그래프 예제 (`--objects`) |
+| `examples/dashboard_demo` | 회전 속도·부하·온도 계기판, 작업 필터, CAD 명령 프롬프트 |
 | `examples/graph_canvas_demo` | 노드·포트·연결선, 선택·이동·확대 그래프 캔버스 예제 |
 | `examples/timeline_view_demo` | 키프레임 트랙, 재생·시간 스크럽, Ctrl 다중 선택, 키 이동·보간·삭제 예제 |
 | `examples/conversation_demo` | 메신저형 대화 목록과 언어별 코드 블록 예제 |
