@@ -1,7 +1,7 @@
 # Windows PowerShell 5.1+, Windows 10/11 x64. No installed compiler or Git needed.
 [CmdletBinding()]
 param(
-    [ValidateSet('ribbon_demo', 'cad_inspector_demo', 'dashboard_demo', 'code_editor_demo', 'list_control_demo', 'platform_probe', 'custom_draw_demo', 'conversation_demo', 'graph_canvas_demo', 'timeline_view_demo')]
+    [ValidateSet('ribbon_demo', 'cad_inspector_demo', 'dashboard_demo', 'hardware_monitor_demo', 'code_editor_demo', 'list_control_demo', 'platform_probe', 'custom_draw_demo', 'conversation_demo', 'graph_canvas_demo', 'timeline_view_demo')]
     [string]$Run,
     [switch]$Test,
     [switch]$PrepareOnly
@@ -129,6 +129,7 @@ try {
         foreach ($example in @('platform_probe', 'custom_draw_demo', 'ribbon_demo', 'cad_inspector_demo', 'dashboard_demo', 'code_editor_demo', 'conversation_demo', 'graph_canvas_demo', 'timeline_view_demo')) {
             Invoke-Checked "$buildDirectory/$example.exe" @('--smoke')
         }
+        Invoke-Checked "$buildDirectory/hardware_monitor_demo.exe" @('--read-sensors')
         Invoke-Checked "$buildDirectory/ribbon_demo.exe" @('--input-test')
         Invoke-Checked "$buildDirectory/ribbon_demo.exe" @('--input-test-v1')
     }
