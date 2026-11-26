@@ -112,3 +112,10 @@ The copied public headers and original example sources retain their existing MIT
 license and copyright notices. See [LICENSE](LICENSE) and
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). This split does not retroactively
 change the license of already published code or decide a future binary SDK license.
+
+## LotUI Designer for VS Code
+
+Use the [LotUI Designer extension](tools/vscode-lotml-designer/README.md) to
+edit the layouts in [examples/settings.lotml](examples/settings.lotml) and
+[examples/ribbon.lotml](examples/ribbon.lotml). Build the lotml_preview target
+against the DesktopSDK to open the current layout in the native Vulkan renderer.
