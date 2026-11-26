@@ -14,7 +14,7 @@ case "$mode" in
     --run)
         [[ $# -eq 2 ]]
         case "$example" in
-            ribbon_demo|cad_inspector_demo|list_control_demo|platform_probe|custom_draw_demo|graph_canvas_demo) ;;
+            ribbon_demo|cad_inspector_demo|list_control_demo|platform_probe|custom_draw_demo|graph_canvas_demo|lotml_dialog_demo) ;;
             *) echo "Unknown example: $example" >&2; exit 2 ;;
         esac ;;
     *) echo "Usage: bash tools/build-macos.sh [--test|--run example]" >&2; exit 2 ;;

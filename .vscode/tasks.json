@@ -85,7 +85,8 @@
         "platform_probe",
         "custom_draw_demo",
         "conversation_demo",
-        "graph_canvas_demo"
+        "graph_canvas_demo",
+        "lotml_dialog_demo"
       ],
       "default": "ribbon_demo"
     }

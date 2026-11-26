@@ -1,7 +1,7 @@
 # Windows PowerShell 5.1+, Windows 10/11 x64. No installed compiler or Git needed.
 [CmdletBinding()]
 param(
-    [ValidateSet('ribbon_demo', 'cad_inspector_demo', 'dashboard_demo', 'hardware_monitor_demo', 'code_editor_demo', 'list_control_demo', 'platform_probe', 'custom_draw_demo', 'conversation_demo', 'graph_canvas_demo', 'timeline_view_demo')]
+    [ValidateSet('ribbon_demo', 'cad_inspector_demo', 'dashboard_demo', 'hardware_monitor_demo', 'code_editor_demo', 'list_control_demo', 'platform_probe', 'custom_draw_demo', 'conversation_demo', 'graph_canvas_demo', 'timeline_view_demo', 'lotml_dialog_demo')]
     [string]$Run,
     [switch]$Test,
     [switch]$PrepareOnly

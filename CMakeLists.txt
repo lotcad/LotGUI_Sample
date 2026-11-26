@@ -99,7 +99,21 @@ if(LOTGUI_BUILD_NATIVE_EXAMPLES)
         if(MINGW)
             target_link_options(lotml_preview PRIVATE -municode)
         endif()
-        list(APPEND _lotgui_example_targets lotml_preview)
+        add_executable(lotml_dialog_demo examples/lotml_dialog_demo/main.cpp ${_bridge})
+        target_link_libraries(lotml_dialog_demo PRIVATE LotUI::Declarative)
+        if(MINGW)
+            target_link_options(lotml_dialog_demo PRIVATE -municode)
+        endif()
+        add_custom_target(lotml_dialog_demo_layout
+            COMMAND "${CMAKE_COMMAND}" -E make_directory
+                "$<TARGET_FILE_DIR:lotml_dialog_demo>/resources/layouts"
+            COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+                "${CMAKE_CURRENT_SOURCE_DIR}/examples/lotml_dialog_demo/dialog-event.lotml"
+                "$<TARGET_FILE_DIR:lotml_dialog_demo>/resources/layouts/dialog-event.lotml"
+            VERBATIM)
+        add_dependencies(lotml_dialog_demo lotml_dialog_demo_layout)
+        install(FILES examples/lotml_dialog_demo/dialog-event.lotml DESTINATION bin/resources/layouts)
+        list(APPEND _lotgui_example_targets lotml_preview lotml_dialog_demo)
     endif()
     foreach(_target IN LISTS _lotgui_example_targets)
         target_include_directories(${_target} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
